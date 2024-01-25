@@ -24,7 +24,7 @@ ann_file_val = '/home/fm-pc-lt-281/projects/mmaction2/tools/data/kinetics400/kin
 
 file_client_args = dict(io_backend='disk')
 file_client_args = dict(
-    io_backend='petrel',
+    io_backend='disk',
     path_mapping=dict(
         {'data/kinetics400/': 's3://openmmlab/datasets/action/Kinetics400/'}))
 
