@@ -58,70 +58,24 @@ model_2 = init_recognizer(config=config_2, checkpoint=checkpoint_path_2, device=
 
 # Define the data dictionary
 data = {
-    'shoots a wideshot': [
-        '65b8a5c4df794f002a8f7b06.mp4',  
-        '65bb559adf794f002a94bc1c.mp4',
-        '65b8adecdf794f002a8fa7a0.mp4',  
-        '65bb79d7df794f002a94e30f.mp4',
-        '65b8b9a9df794f002a8fe7cd.mp4',  
-        '65c30fc58631a20040442b3b.mp4',
-        '65b8d5b6df794f002a908755.mp4',  
-        '65c338168631a20040446356.mp4',
-        '65b8e57edf794f002a90f75a.mp4',  
-        '65cb64f7911a1e0040f100e9.mp4'
-    ],
-    'passes the ball': [
-        '6554968f772bfd06144a07c8.mp4',
-        '655c948574d98c3180806c8f.mp4',
-        '6554a577772bfd06144a5beb.mp4',
-        '655dd5ae7fa3cc35ce9f2363.mp4',
-        '6554cec2772bfd06144b523c.mp4',
-        '655eda628c6d584385faade3.mp4',
-        '6556240daa1dc14848e2e4b8.mp4',
-        '655eeb598c6d584385fae29b.mp4',
-        '65570251955808f7d5cc55cd.mp4',
-        '655efa848c6d584385fb16be.mp4',
-        '655753de955808f7d5cdf3c8.mp4',
-        '655f062f8c6d584385fb4e12.mp4',
-        '655c591d84f3692cfcfab793.mp4',
-        '655f11ea8c6d584385fb7f0c.mp4',
-        '655c816074d98c31807f1f53.mp4',
-    ],
-    'scores a goal': [
-        '64f97558398d55a6feefdb86.mp4',
-        '654772d219d1a947e8aaf999.mp4',
-        '64f9a76a398d55a6feeffb04.mp4',
-        '655ede6f8c6d584385fab604.mp4',
-        '64fad0dfb199e1aa8cf9fc23.mp4',
-        '655f56298c6d584385fc5363.mp4',
-        '651505f13d3b288f841f66a8.mp4',
-        '65b8ec9bdf794f002a913430.mp4',
-        '6516644f454edb97b4fe40e7.mp4',
-        '65bb70a4df794f002a94daf1.mp4',
-        '651bd957775b05b3c93fe0bf.mp4',
-        '65bb89c7df794f002a94f42e.mp4',
-        '65278bc52072ea21d17f2d94.mp4',
-        '65c0bcdcd753490035e02542.mp4',
-        '653a8a67acb5cebdc57da85c.mp4',
-    ],
-    'saves the ball': [
-        '64d0a8c825807e2f5f98495d.mp4',
-        '655c80fe74d98c31807f1801.mp4',
-        '64f82a57973fdb874d09d6de.mp4',
-        '655c992674d98c318080b218.mp4',
-        '64fa9d41b199e1aa8cf9a438.mp4',
-        '655c9bfd74d98c318080d2be.mp4',
-        '651c085c775b05b3c941d7c1.mp4',
-        '655cc66d74d98c3180827f61.mp4',
-        '6527d1c1e4034b2a76c76378.mp4',
-        '655f02568c6d584385fb3952.mp4',
-        '654c7e5d9332e87898c189a5.mp4',
-        '655f4c548c6d584385fc2f0c.mp4',
-        '654c91509332e87898c1a6d0.mp4',
-        '658bdc72445fac001ddcbbf4.mp4',
-        '655c3fee84f3692cfcf91709.mp4',
-    ],
+    'shoots a wideshot': [],
+    'passes the ball': [],
+    'scores a goal': [],
+    'saves the ball': []
 }
+
+# Path to the main folder containing subfolders
+main_folder_path = '/home/fm-pc-lt-281/projects/mmaction2/videos/test_data/'
+
+# Iterate through each subfolder
+for action_label in data.keys():
+    subfolder_path = os.path.join(main_folder_path, action_label)
+    if os.path.exists(subfolder_path):
+        # Iterate through files in the subfolder
+        for filename in os.listdir(subfolder_path):
+            if filename.endswith(".mp4"):
+                data[action_label].append(filename)
+
 class_labels = data.keys()
 ## Define ground truth labels for each video
 ground_truth_labels = {}
@@ -138,7 +92,7 @@ tp_shoots_a_wideshot, fp_shoots_a_wideshot, fn_shoots_a_wideshot = 0, 0, 0
 
 # # Loop through each video and compare predicted label with ground truth label
 for video_name, ground_truth_label in ground_truth_labels.items():
-    video_path = f'/home/fm-pc-lt-281/projects/mmaction2/videos/test_data/{video_name}'
+    video_path = os.path.join(os.path.join(main_folder_path, ground_truth_label), video_name)
 
     max_prob = 0
     predicted_label = None
