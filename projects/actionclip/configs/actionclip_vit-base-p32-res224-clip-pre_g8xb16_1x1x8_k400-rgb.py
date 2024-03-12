@@ -18,13 +18,13 @@ model = dict(
 dataset_type = 'VideoDataset'
 data_root = 'data/kinetics400/videos_train'
 data_root_val = 'data/kinetics400/videos_val'
-ann_file_train = 'data/kinetics400/kinetics400_train_list_videos.txt'
-ann_file_val = 'data/kinetics400/kinetics400_val_list_videos.txt'
-ann_file_test = 'data/kinetics400/kinetics400_val_list_videos.txt'
+ann_file_train = '/home/fm-pc-lt-281/projects/mmaction2/tools/data/kinetics400/kinetics400_train_list_videos.txt'
+ann_file_val = '/home/fm-pc-lt-281/projects/mmaction2/tools/data/kinetics400/kinetics400_val_list_videos.txt'
+# ann_file_test = 'data/kinetics400/kinetics400_val_list_videos.txt'
 
 file_client_args = dict(io_backend='disk')
 file_client_args = dict(
-    io_backend='petrel',
+    io_backend='disk',
     path_mapping=dict(
         {'data/kinetics400/': 's3://openmmlab/datasets/action/Kinetics400/'}))
 
@@ -86,25 +86,27 @@ val_dataloader = dict(
         data_prefix=dict(video=data_root_val),
         pipeline=val_pipeline,
         test_mode=True))
-test_dataloader = dict(
-    batch_size=1,
-    num_workers=16,
-    persistent_workers=True,
-    sampler=dict(type='DefaultSampler', shuffle=False),
-    dataset=dict(
-        type=dataset_type,
-        ann_file=ann_file_test,
-        data_prefix=dict(video=data_root_val),
-        pipeline=test_pipeline,
-        test_mode=True))
+# test_dataloader = dict(
+#     batch_size=1,
+#     num_workers=16,
+#     persistent_workers=True,
+#     sampler=dict(type='DefaultSampler', shuffle=False),
+#     dataset=dict(
+#         type=dataset_type,
+#         ann_file=ann_file_test,
+#         data_prefix=dict(video=data_root_val),
+#         pipeline=test_pipeline,
+#         test_mode=True))
 
 val_evaluator = dict(type='AccMetric')
-test_evaluator = val_evaluator
+# test_evaluator = val_evaluator
+test_evaluator = None
 
 train_cfg = dict(
     type='EpochBasedTrainLoop', max_epochs=50, val_begin=1, val_interval=1)
 val_cfg = dict(type='ValLoop')
-test_cfg = dict(type='TestLoop')
+# test_cfg = dict(type='TestLoop')
+test_cfg = None
 
 optim_wrapper = dict(
     optimizer=dict(

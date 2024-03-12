@@ -121,6 +121,7 @@ venv.bak/
 *.log.json
 benchlist.txt
 work_dirs/
+videos/
 /projects/*/work_dirs
 /projects/*/data
 .DS_Store
